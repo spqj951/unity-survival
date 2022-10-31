@@ -18,6 +18,8 @@ public class ActionController : MonoBehaviour
 
     [SerializeField]
     private Text actionText;
+    [SerializeField]
+    private Inventory theInventory;
 
   
 
@@ -71,6 +73,7 @@ public class ActionController : MonoBehaviour
             if(hitInfo.transform != null)//오류방지
             {
                 Debug.Log(hitInfo.transform.GetComponent<ItemPickUp>().item.itemName + " 획득했습니다.");
+                theInventory.AcquireItem(hitInfo.transform.GetComponent<ItemPickUp>().item);
                 Destroy(hitInfo.transform.gameObject);
                 InfoDisappear();
 
