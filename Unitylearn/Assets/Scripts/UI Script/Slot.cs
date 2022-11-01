@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Slot : MonoBehaviour
+public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Item item;//획득한 아이템
     public int itemCount;
@@ -15,7 +16,13 @@ public class Slot : MonoBehaviour
     [SerializeField]
     private GameObject go_CountImage;//이미지 있을 때만 띄우기
 
+    private SlotTooltip theSlot;
 
+     void Start()
+    {
+        theSlot = FindObjectOfType<SlotTooltip>();
+    }
+    
     private void SetColor(float _alpha)//투명도 결정하는 알파값 바꾸기
     {
         Color color = itemImage.color;
@@ -68,5 +75,20 @@ public class Slot : MonoBehaviour
 
         text_count.text = "0";
         go_CountImage.SetActive(false);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        theSlot.HideToolTip();
+
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+      
+        if (item != null)
+        {
+            theSlot.ShowToolTip(item, transform.position);
+        }
     }
 }
